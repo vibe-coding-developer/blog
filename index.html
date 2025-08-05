@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스타일 매거진 - 2025 컬렉션</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Jua', sans-serif;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        /* 로딩 화면 */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease-out;
+        }
+
+        .loader-text {
+            font-size: 3rem;
+            color: #fff;
+            letter-spacing: 0.5rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 메인 컨테이너 */
+        .magazine-container {
+            display: flex;
+            width: 2000vw;
+            height: 100vh;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* 페이지 스타일 */
+        .page {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 미디어 요소 공통 스타일 */
+        .media-element {
+            position: absolute;
+            object-fit: contain;
+            max-width: 100%;
+            max-height: 100%;
+            transition: all 0.5s ease;
+        }
+
+        video.media-element {
+            object-fit: cover;
+        }
+
+        /* 텍스트 요소 */
+        .text-element {
+            position: absolute;
+            z-index: 10;
+            padding: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 타이포그래피 효과 */
+        .title-giant {
+            font-size: clamp(3rem, 8vw, 10rem);
+            letter-spacing: -0.05em;
+            line-height: 0.9;
+            font-weight: 400;
+        }
+
+        .title-large {
+            font-size: clamp(2rem, 5vw, 6rem);
+            letter-spacing: 0.02em;
+        }
+
+        .title-medium {
+            font-size: clamp(1.5rem, 3vw, 4rem);
+            letter-spacing: 0.05em;
+        }
+
+        .body-text {
+            font-size: clamp(1rem, 1.5vw, 1.5rem);
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .caption {
+            font-size: clamp(0.8rem, 1vw, 1.2rem);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* 텍스트 효과 */
+        .text-outline {
+            -webkit-text-stroke: 2px #fff;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .text-shadow-heavy {
+            text-shadow: 5px 5px 0px #ff6b6b, 10px 10px 0px #4ecdc4;
+        }
+
+        /* 네비게이션 */
+        .nav-dots {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #fff;
+            transform: scale(1.5);
+        }
+
+        /* 페이지별 스타일 */
+        /* 페이지 1 - 표지 */
+        #page1 {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+
+        #page1 .media-element {
+            width: 80%;
+            height: 80%;
+            filter: contrast(1.2) brightness(0.9);
+        }
+
+        #page1 .title-giant {
+            top: 10%;
+            left: 5%;
+            color: #fff;
+            mix-blend-mode: difference;
+        }
+
+        #page1 .caption {
+            bottom: 5%;
+            right: 5%;
+            color: #ff6b6b;
+        }
+
+        /* 페이지 2 */
+        #page2 {
+            background: #f0f0f0;
+        }
+
+        #page2 .media-element {
+            width: 60%;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #page2 .text-element {
+            left: 5%;
+            top: 20%;
+            color: #1a1a1a;
+        }
+
+        #page2 .body-text {
+            margin-top: 2rem;
+            color: #333;
+        }
+
+        /* 페이지 3 */
+        #page3 {
+            background: #ff6b6b;
+        }
+
+        #page3 .media-element {
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        #page3 .title-large {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+        }
+
+        /* 페이지 4 */
+        #page4 {
+            background: #1a1a1a;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        #page4 .media-element:first-child {
+            position: relative;
+            width: 100%;
+            height: 60%;
+            top: auto;
+            left: auto;
+        }
+
+        #page4 .media-element:last-child {
+            position: relative;
+            width: 100%;
+            height: 60%;
+            top: auto;
+            left: auto;
+            margin-top: 20%;
+        }
+
+        #page4 .text-element {
+            grid-column: 1 / -1;
+            position: relative;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        /* 페이지 5 */
+        #page5 {
+            background: #4ecdc4;
+        }
+
+        #page5 .media-element {
+            width: 70%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-5deg);
+        }
+
+        #page5 .title-giant {
+            top: 10%;
+            right: 10%;
+            color: #1a1a1a;
+            writing-mode: vertical-rl;
+        }
+
+        /* 페이지 6 */
+        #page6 {
+            background: #2d2d2d;
+        }
+
+        #page6 .media-element {
+            width: 50%;
+            left: 25%;
+            top: 20%;
+        }
+
+        #page6 .body-text {
+            bottom: 10%;
+            left: 10%;
+            right: 10%;
+            text-align: justify;
+            columns: 2;
+            gap: 2rem;
+        }
+
+        /* 페이지 7 */
+        #page7 {
+            background: linear-gradient(to right, #ff6b6b, #4ecdc4);
+        }
+
+        #page7 .media-element {
+            width: 100%;
+            height: 100%;
+            mix-blend-mode: multiply;
+        }
+
+        #page7 .title-large {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+        }
+
+        /* 페이지 8 */
+        #page8 {
+            background: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+        }
+
+        #page8 .media-element {
+            position: relative;
+            width: 40%;
+            margin: 0 auto;
+        }
+
+        #page8 .text-element {
+            position: relative;
+            text-align: center;
+            color: #1a1a1a;
+            margin: 2rem 0;
+        }
+
+        /* 페이지 9 */
+        #page9 {
+            background: #1a1a1a;
+        }
+
+        #page9 .media-element:first-child {
+            width: 30%;
+            top: 10%;
+            left: 10%;
+        }
+
+        #page9 .media-element:last-child {
+            width: 40%;
+            bottom: 10%;
+            right: 10%;
+        }
+
+        #page9 .title-medium {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        /* 페이지 10 */
+        #page10 {
+            background: #ff6b6b;
+        }
+
+        #page10 .media-element {
+            width: 80%;
+            height: 60%;
+            top: 20%;
+            left: 10%;
+        }
+
+        #page10 .caption {
+            top: 5%;
+            left: 5%;
+            font-size: clamp(2rem, 3vw, 4rem);
+        }
+
+        /* 페이지 11 */
+        #page11 {
+            background: #4ecdc4;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            padding: 2rem;
+        }
+
+        #page11 .media-element {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        #page11 .text-element {
+            grid-column: 1 / -1;
+            position: relative;
+            text-align: center;
+            color: #1a1a1a;
+        }
+
+        /* 페이지 12 */
+        #page12 {
+            background: #2d2d2d;
+        }
+
+        #page12 .media-element {
+            width: 100%;
+            height: 100%;
+        }
+
+        #page12 .title-giant {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        /* 페이지 13 */
+        #page13 {
+            background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 100%);
+        }
+
+        #page13 .media-element {
+            width: 60%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(10deg);
+        }
+
+        #page13 .body-text {
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            right: 5%;
+            color: #1a1a1a;
+            text-align: center;
+        }
+
+        /* 페이지 14 */
+        #page14 {
+            background: #1a1a1a;
+        }
+
+        #page14 .media-element {
+            width: 50%;
+            left: 0;
+            top: 0;
+            height: 100%;
+        }
+
+        #page14 .text-element {
+            right: 5%;
+            top: 30%;
+            max-width: 40%;
+        }
+
+        /* 페이지 15 */
+        #page15 {
+            background: #ff6b6b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #page15 .media-element {
+            width: 70%;
+            height: 70%;
+        }
+
+        #page15 .title-large {
+            position: absolute;
+            bottom: 5%;
+            left: 5%;
+            color: #fff;
+        }
+
+        /* 페이지 16 */
+        #page16 {
+            background: #4ecdc4;
+        }
+
+        #page16 .media-element:first-child {
+            width: 40%;
+            top: 10%;
+            right: 10%;
+        }
+
+        #page16 .media-element:last-child {
+            width: 40%;
+            bottom: 10%;
+            left: 10%;
+        }
+
+        #page16 .body-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #1a1a1a;
+            background: rgba(255,255,255,0.9);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        /* 페이지 17 */
+        #page17 {
+            background: #2d2d2d;
+        }
+
+        #page17 .media-element {
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+        }
+
+        #page17 .title-giant {
+            top: 20%;
+            left: 10%;
+            right: 10%;
+            text-align: center;
+        }
+
+        #page17 .body-text {
+            bottom: 10%;
+            left: 20%;
+            right: 20%;
+            text-align: center;
+        }
+
+        /* 페이지 18 */
+        #page18 {
+            background: linear-gradient(to bottom, #ff6b6b, #4ecdc4);
+        }
+
+        #page18 .media-element {
+            width: 60%;
+            height: 80%;
+            left: 20%;
+            top: 10%;
+        }
+
+        #page18 .caption {
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            writing-mode: vertical-rl;
+            font-size: clamp(1.5rem, 2vw, 3rem);
+        }
+
+        /* 페이지 19 */
+        #page19 {
+            background: #f0f0f0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        #page19 .media-element {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        #page19 .text-element {
+            position: relative;
+            padding: 2rem;
+            color: #1a1a1a;
+        }
+
+        /* 페이지 20 - 랜딩 페이지 */
+        #page20 {
+            background: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #page20 .title-giant {
+            margin-bottom: 2rem;
+            color: #fff;
+        }
+
+        #page20 .cta-button {
+            padding: 1.5rem 3rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 2rem;
+        }
+
+        #page20 .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .magazine-container {
+                width: 2000vw;
+            }
+
+            .title-giant {
+                font-size: clamp(2rem, 10vw, 4rem);
+            }
+
+            .title-large {
+                font-size: clamp(1.5rem, 8vw, 3rem);
+            }
+
+            .title-medium {
+                font-size: clamp(1.2rem, 6vw, 2.5rem);
+            }
+
+            .body-text {
+                font-size: clamp(0.9rem, 3vw, 1.2rem);
+                max-width: 90%;
+            }
+
+            .page {
+                padding: 1rem;
+            }
+
+            #page4, #page11, #page19 {
+                grid-template-columns: 1fr;
+            }
+
+            #page6 .body-text {
+                columns: 1;
+            }
+
+            .media-element {
+                max-width: 90%;
+                max-height: 70%;
+            }
+
+            #page16 .body-text {
+                padding: 1rem;
+                width: 80%;
+            }
+
+            .nav-dots {
+                bottom: 1rem;
+            }
+
+            #page20 .cta-button {
+                padding: 1rem 2rem;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title-giant {
+                font-size: 2rem;
+            }
+
+            .title-large {
+                font-size: 1.5rem;
+            }
+
+            .title-medium {
+                font-size: 1.2rem;
+            }
+
+            .body-text {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+
+            .caption {
+                font-size: 0.7rem;
+            }
+        }
+
+        /* 스크롤 힌트 */
+        .scroll-hint {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            animation: slideHint 2s infinite;
+        }
+
+        @keyframes slideHint {
+            0%, 100% { transform: translateY(-50%) translateX(0); }
+            50% { transform: translateY(-50%) translateX(10px); }
+        }
+
+        .scroll-hint::after {
+            content: '→';
+            font-size: 2rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        @media (max-width: 768px) {
+            .scroll-hint {
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 로딩 화면 -->
+    <div id="loader">
+        <div class="loader-text">로딩중...</div>
+    </div>
+
+    <!-- 스크롤 힌트 -->
+    <div class="scroll-hint"></div>
+
+    <!-- 네비게이션 -->
+    <div class="nav-dots">
+        <div class="nav-dot active" data-page="0"></div>
+        <div class="nav-dot" data-page="1"></div>
+        <div class="nav-dot" data-page="2"></div>
+        <div class="nav-dot" data-page="3"></div>
+        <div class="nav-dot" data-page="4"></div>
+        <div class="nav-dot" data-page="5"></div>
+        <div class="nav-dot" data-page="6"></div>
+        <div class="nav-dot" data-page="7"></div>
+        <div class="nav-dot" data-page="8"></div>
+        <div class="nav-dot" data-page="9"></div>
+        <div class="nav-dot" data-page="10"></div>
+        <div class="nav-dot" data-page="11"></div>
+        <div class="nav-dot" data-page="12"></div>
+        <div class="nav-dot" data-page="13"></div>
+        <div class="nav-dot" data-page="14"></div>
+        <div class="nav-dot" data-page="15"></div>
+        <div class="nav-dot" data-page="16"></div>
+        <div class="nav-dot" data-page="17"></div>
+        <div class="nav-dot" data-page="18"></div>
+        <div class="nav-dot" data-page="19"></div>
+    </div>
+
+    <!-- 매거진 컨테이너 -->
+    <div class="magazine-container" id="magazineContainer">
+        <!-- 페이지 1 - 표지 -->
+        <div class="page" id="page1">
+            <video class="media-element" autoplay muted loop playsinline>
+                <source src="https://cdn.midjourney.com/video/943f187d-06c3-41d5-95d6-399437fc779b/0.mp4" type="video/mp4">
+            </video>
+            <h1 class="text-element title-giant text-outline">스타일</h1>
+            <p class="text-element caption">2025 COLLECTION</p>
+        </div>
+
+        <!-- 페이지 2 -->
+        <div class="page" id="page2">
+            <img class="media-element" src="https://cdn.midjourney.com/4913c86c-305f-47b3-9864-f417fc715384/0_0.png" alt="Fashion">
+            <div class="text-element">
+                <h2 class="title-large">새로운 시대의<br>패션 철학</h2>
+                <p class="body-text">패션은 단순한 옷차림이 아니다. 그것은 우리의 정체성을 표현하는 언어이며, 시대정신을 반영하는 거울이다. 2025년, 우리는 지속가능성과 혁신이 만나는 지점에서 새로운 스타일의 정의를 찾는다.</p>
+            </div>
+        </div>
+
+        <!-- 페이지 3 -->
+        <div class="page" id="page3">
+            <video class="media-element" autoplay muted loop playsinline>
+                <source src="https://cdn.midjourney.com/video/775cc665-299a-4499-ae47-ec7f049568d4/0.mp4" type="video/mp4">
+            </video>
+            <h2 class="text-element title-large text-shadow-heavy">대담한<br>변화</h2>
+        </div>
+
+        <!-- 페이지 4 -->
+        <div class="page" id="page4">
+            <img class="media-element" src="https://cdn.midjourney.com/21089b5a-9422-4b3a-9361-8b1f79f7a7b8/0_0.png" alt="Fashion">
+            <img class="media-element" src="https://cdn.midjourney.com/21089b5a-9422-4b3a-9361-8b1f79f7a7b8/0_1.png" alt="Fashion">
+            <div class="text-element">
+                <h3 class="title-medium">듀얼리티</h3>
+                <p class="caption">대비와 조화의 미학</p>
+            </div>
+        </div>
+
+        <!-- 페이지 5 -->
+        <div class="page" id="page5">
+            <img class="media-element" src="https://cdn.midjourney.com/91b2f553-c58c-436f-b778-d1a2cf97b028/0_0.png" alt="Fashion">
+            <h2 class="text-element title-giant">색<br>의<br>반<br>란</h2>
+        </div>
+
+        <!-- 페이지 6 -->
+        <div class="page" id="page6">
+            <video class="media-element" autoplay muted loop playsinline>
+                <source src="https://cdn.midjourney.com/video/1df72f6e-6875-48d5-a921-be863c989a87/0.mp4" type="video/mp4">
+            </video>
+            <p class="text-element body-text">
+                미니멀리즘과 맥시멀리즘의 경계가 무너지고 있다. 현대 패션은 더 이상 하나의 스타일에 국한되지 않는다. 우리는 모든 것을 수용하고, 모든 것을 거부한다. 이것이 바로 새로운 시대의 패션 언어다. 개성은 규칙을 따르는 것이 아니라, 자신만의 규칙을 만드는 데서 나온다. 2025년의 스타일은 자유롭고, 대담하며, 무엇보다 진정성 있다.
+            </p>
+        </div>
+
+        <!-- 페이지 7 -->
+        <div class="page" id="page7">
+            <video class="media-element" autoplay muted loop playsinline>
+                <source src="https://cdn.midjourney.com/video/c73584c8-5e9a-4d58-989d-c8b279dc841f/0.mp4" type="video/mp4">
+            </video>
+            <h2 class="text-element title-large text-gradient">움직임의 미학</h2>
+        </div>
+
+        <!-- 페이지 8 -->
+        <div class="page" id="page8">
+            <img class="media-element" src="https://cdn.midjourney.com/0f9c4c1b-1197-479b-acff-6681a97f777f/0_1.png" alt="Fashion">
+            <h3 class="text-element title-medium">심플함의 힘</h3>
+            <p class="text-element body-text">때로는 가장 단순한 것이 가장 강력한 메시지를 전달한다.</p>
+        </div>
+
+        <!-- 페이지 9 -->
+        <div class="page" id="page9">
+            <img class="media-element" src="https://cdn.midjourney.com/6922249a-6a8e-433f-9a24-4f25d6e4ac44/0_2.png" alt="Fashion">
+            <video class="media-element" autoplay muted loop playsinline>
+                <source src="https://cdn.midjourney.com/video/5cc752d9-06f2-4b0a-9873-702e5dbc8c93/0.mp4" type="video/mp4">
+            </video>
+            <h3 class="text-element title-medium text-outline">레이어드<br>스토리</h3>
+        </div>
+
+        <!-- 페이지 10 -->
+        <div class="page" id="page10">
+            <img class="media-element" src="https://cdn.midjourney.com/a04eef6c-9edd-44db-8d66-fd7e7b5e9d6b/0_0.png" alt="Fashion">
+            <p class="text-element caption">BOLD & BEAUTIFUL</p>
+        </div>
+
+        <!-- 페이지 11 -->
+        <div class="page" id="page11">
+            <img class="media-element" src="https://cdn.midjourney.com/a04eef6c-9edd-44db-8d66-fd7e7b5e9d6b/0_3.png" alt="Fashion">
+            <img class="media-element" src="https://cdn.midjourney.com/a04eef6c-9edd-44db-8d66-fd7e7b5e9d6b/0_2.png" alt="Fashion">
+            <img class="media-element" src="https://cdn.midjourney.com/efcd532a-f0d9-48da-8941-de42684021ce/0_0.png" alt="Fashion">
+            <h3 class="text-element title-medium">트리플 임팩트</h3>
+        </div>
+
+        <!-- 페이지 12 -->
+        <div class="page" id="page12">
+            <video class="media-element" autoplay muted loop playsinline>
+                <source src="https://cdn.midjourney.com/video/f9e34407-e3bd-4433-9d68-9ff1f6579f0e/0.mp4" type="video/mp4">
+            </video>
+            <h1 class="text-element title-giant">무한한<br>가능성</h1>
+        </div>
+
+        <!-- 페이지 13 -->
+        <div class="page" id="page13">
+            <img class="media-element" src="https://cdn.midjourney.com/efcd532a-f0d9-48da-8941-de42684021ce/0_3.png" alt="Fashion">
+            <p class="text-element body-text">
+                패션의 미래는 과거와 현재의 조화로운 만남에서 시작된다. 전통적인 기법과 현대적인 감각이 만나 새로운 아름다움을 창조한다. 우리는 더 이상 트렌드를 따르지 않는다. 우리가 트렌드를 만든다.
+            </p>
+        </div>
+
+        <!-- 페이지 14 -->
+        <div class="page" id="page14">
+            <video class="media-element" autoplay muted loop playsinline>
+                <source src="https://cdn.midjourney.com/video/943f187d-06c3-41d5-95d6-399437fc779b/1.mp4" type="video/mp4">
+            </video>
+            <div class="text-element">
+                <h2 class="title-large">어둠 속의<br>빛</h2>
+                <p class="body-text">대비는 아름다움을 더욱 돋보이게 한다. 어둠이 있기에 빛이 더욱 찬란하고, 정적이 있기에 움직임이 더욱 역동적이다.</p>
+            </div>
+        </div>
+
+        <!-- 페이지 15 -->
+        <div class="page" id="page15">
+            <img class="media-element" src="https://cdn.midjourney.com/4913c86c-305f-47b3-9864-f417fc715384/0_1.png" alt="Fashion">
+            <h2 class="text-element title-large text-shadow-heavy">파워풀</h2>
+        </div>
+
+        <!-- 페이지 16 -->
+        <div class="page" id="page16">
+            <img class="media-element" src="https://cdn.midjourney.com/4913c86c-305f-47b3-9864-f417fc715384/0_2.png" alt="Fashion">
+            <video class="media-element" autoplay muted loop playsinline>
+                <source src="https://cdn.midjourney.com/video/775cc665-299a-4499-ae47-ec7f049568d4/1.mp4" type="video/mp4">
+            </video>
+            <p class="text-element body-text">
+                스타일은 선택이다. 매일 아침 우리가 입는 옷은 세상에 전하는 메시지다. 그것은 우리가 누구인지, 무엇을 추구하는지를 말해준다. 2025년의 패션은 더욱 개인적이고, 더욱 의미 있으며, 더욱 지속가능하다.
+            </p>
+        </div>
+
+        <!-- 페이지 17 -->
+        <div class="page" id="page17">
+            <video class="media-element" autoplay muted loop playsinline>
+                <source src="https://cdn.midjourney.com/video/1df72f6e-6875-48d5-a921-be863c989a87/1.mp4" type="video/mp4">
+            </video>
+            <h1 class="text-element title-giant text-outline">미래를<br>입다</h1>
+            <p class="text-element body-text">
+                기술과 패션의 만남은 새로운 가능성을 열어준다. 스마트 패브릭, 3D 프린팅, 지속가능한 소재들이 우리의 옷장을 혁신하고 있다.
+            </p>
+        </div>
+
+        <!-- 페이지 18 -->
+        <div class="page" id="page18">
+            <img class="media-element" src="https://cdn.midjourney.com/4913c86c-305f-47b3-9864-f417fc715384/0_3.png" alt="Fashion">
+            <p class="text-element caption">VERTICAL<br>HORIZON</p>
+        </div>
+
+        <!-- 페이지 19 -->
+        <div class="page" id="page19">
+            <video class="media-element" autoplay muted loop playsinline>
+                <source src="https://cdn.midjourney.com/video/c73584c8-5e9a-4d58-989d-c8b279dc841f/1.mp4" type="video/mp4">
+            </video>
+            <div class="text-element">
+                <h2 class="title-medium">마지막 장</h2>
+                <p class="body-text">
+                    이 여정의 끝에서 우리는 깨닫는다. 패션은 단순히 트렌드를 따르는 것이 아니라, 자신만의 이야기를 만들어가는 것임을. 당신의 스타일은 당신의 이야기다. 그리고 그 이야기는 이제 막 시작되었다.
+                </p>
+            </div>
+        </div>
+
+        <!-- 페이지 20 - 랜딩 페이지 -->
+        <div class="page" id="page20">
+            <h1 class="title-giant text-gradient">당신의 스타일,<br>당신의 이야기</h1>
+            <p class="body-text">새로운 컬렉션을 만나보세요</p>
+            <a href="#" class="cta-button">컬렉션 보기</a>
+        </div>
+    </div>
+
+    <script>
+        // 변수 선언
+        let currentPage = 0;
+        const totalPages = 20;
+        const container = document.getElementById('magazineContainer');
+        const navDots = document.querySelectorAll('.nav-dot');
+        const loader = document.getElementById('loader');
+        let isScrolling = false;
+
+        // 미디어 프리로드
+        const mediaUrls = [
+            'https://cdn.midjourney.com/4913c86c-305f-47b3-9864-f417fc715384/0_0.png',
+            'https://cdn.midjourney.com/4913c86c-305f-47b3-9864-f417fc715384/0_1.png',
+            'https://cdn.midjourney.com/4913c86c-305f-47b3-9864-f417fc715384/0_2.png',
+            'https://cdn.midjourney.com/4913c86c-305f-47b3-9864-f417fc715384/0_3.png',
+            'https://cdn.midjourney.com/21089b5a-9422-4b3a-9361-8b1f79f7a7b8/0_0.png',
+            'https://cdn.midjourney.com/21089b5a-9422-4b3a-9361-8b1f79f7a7b8/0_1.png',
+            'https://cdn.midjourney.com/91b2f553-c58c-436f-b778-d1a2cf97b028/0_0.png',
+            'https://cdn.midjourney.com/0f9c4c1b-1197-479b-acff-6681a97f777f/0_1.png',
+            'https://cdn.midjourney.com/6922249a-6a8e-433f-9a24-4f25d6e4ac44/0_2.png',
+            'https://cdn.midjourney.com/a04eef6c-9edd-44db-8d66-fd7e7b5e9d6b/0_0.png',
+            'https://cdn.midjourney.com/a04eef6c-9edd-44db-8d66-fd7e7b5e9d6b/0_3.png',
+            'https://cdn.midjourney.com/a04eef6c-9edd-44db-8d66-fd7e7b5e9d6b/0_2.png',
+            'https://cdn.midjourney.com/efcd532a-f0d9-48da-8941-de42684021ce/0_0.png',
+            'https://cdn.midjourney.com/efcd532a-f0d9-48da-8941-de42684021ce/0_3.png'
+        ];
+
+        const videoUrls = [
+            'https://cdn.midjourney.com/video/943f187d-06c3-41d5-95d6-399437fc779b/0.mp4',
+            'https://cdn.midjourney.com/video/943f187d-06c3-41d5-95d6-399437fc779b/1.mp4',
+            'https://cdn.midjourney.com/video/775cc665-299a-4499-ae47-ec7f049568d4/0.mp4',
+            'https://cdn.midjourney.com/video/775cc665-299a-4499-ae47-ec7f049568d4/1.mp4',
+            'https://cdn.midjourney.com/video/1df72f6e-6875-48d5-a921-be863c989a87/0.mp4',
+            'https://cdn.midjourney.com/video/1df72f6e-6875-48d5-a921-be863c989a87/1.mp4',
+            'https://cdn.midjourney.com/video/c73584c8-5e9a-4d58-989d-c8b279dc841f/0.mp4',
+            'https://cdn.midjourney.com/video/c73584c8-5e9a-4d58-989d-c8b279dc841f/1.mp4',
+            'https://cdn.midjourney.com/video/5cc752d9-06f2-4b0a-9873-702e5dbc8c93/0.mp4',
+            'https://cdn.midjourney.com/video/f9e34407-e3bd-4433-9d68-9ff1f6579f0e/0.mp4'
+        ];
+
+        // 프리로드 함수
+        async function preloadMedia() {
+            const promises = [];
+
+            // 이미지 프리로드
+            mediaUrls.forEach(url => {
+                promises.push(new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = resolve;
+                    img.onerror = resolve; // 에러 시에도 계속 진행
+                    img.src = url;
+                }));
+            });
+
+            // 비디오 프리로드
+            videoUrls.forEach(url => {
+                promises.push(new Promise((resolve, reject) => {
+                    const video = document.createElement('video');
+                    video.onloadeddata = resolve;
+                    video.onerror = resolve; // 에러 시에도 계속 진행
+                    video.src = url;
+                    video.load();
+                }));
+            });
+
+            await Promise.all(promises);
+        }
+
+        // 페이지 이동 함수
+        function goToPage(pageNumber) {
+            if (pageNumber < 0 || pageNumber >= totalPages || isScrolling) return;
+            
+            isScrolling = true;
+            currentPage = pageNumber;
+            const offset = -pageNumber * 100;
+            container.style.transform = `translateX(${offset}vw)`;
+            
+            // 네비게이션 업데이트
+            navDots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === pageNumber);
+            });
+
+            setTimeout(() => {
+                isScrolling = false;
+            }, 800);
+        }
+
+        // 마우스 휠 이벤트
+        let scrollTimeout;
+        window.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            
+            if (isScrolling) return;
+            
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (e.deltaY > 0 || e.deltaX > 0) {
+                    goToPage(currentPage + 1);
+                } else if (e.deltaY < 0 || e.deltaX < 0) {
+                    goToPage(currentPage - 1);
+                }
+            }, 50);
+        }, { passive: false });
+
+        // 터치 이벤트
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        window.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        window.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (isScrolling) return;
+            
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    goToPage(currentPage + 1);
+                } else {
+                    goToPage(currentPage - 1);
+                }
+            }
+        }
+
+        // 키보드 네비게이션
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                goToPage(currentPage + 1);
+            } else if (e.key === 'ArrowLeft') {
+                goToPage(currentPage - 1);
+            }
+        });
+
+        // 네비게이션 닷 클릭
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                goToPage(index);
+            });
+        });
+
+        // 초기화
+        window.addEventListener('load', async () => {
+            await preloadMedia();
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 1000);
+            }, 500);
+        });
+
+        // 리사이즈 처리
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                goToPage(currentPage);
+            }, 250);
+        });
+    </script>
+</body>
+</html>
